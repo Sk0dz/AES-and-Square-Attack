@@ -1,5 +1,23 @@
 #include "aes.h"
 
+/**
+ * Number of columns in the state matrix, which is the input to the encryption algorithm.
+ * The value of Nb is fixed at 4 for AES encryption.
+**/
+#define Nb 4;
+
+/**
+ * The key size, expressed in terms of the number of 32-bit words in the key. 
+ * The value of Nk can be 4 (128-bit key), 6 (192-bit key) or 8 (256-bit key).
+**/
+#define Nk 4;
+
+/**
+ * The number of rounds in the encryption process. 
+ * The number of rounds is determined by the key size and is equal to 10 for a 128-bit key, 12 for a 192-bit key and 14 for a 256-bit key.
+**/
+#define Nr 10;
+
 //S-box transformation table in hexadecimal
 
 static const uint8_t s_box[256] = {
