@@ -61,7 +61,58 @@ static const uint8_t inverse_s_box[256] = {
     0xa0, 0xe0, 0x3b, 0x4d, 0xae, 0x2a, 0xf5, 0xb0, 0xc8, 0xeb, 0xbb, 0x3c, 0x83, 0x53, 0x99, 0x61,   // E0
     0x17, 0x2b, 0x04, 0x7e, 0xba, 0x77, 0xd6, 0x26, 0xe1, 0x69, 0x14, 0x63, 0x55, 0x21, 0x0c, 0x7d};  // F0
 
-void sub_bytes(uint8_t *state) {
+// Rcon[i], contains the values given by x to the power (i-1) being powers of x in the field GF(2^8)
+static const uint8_t Rcon[11] = {0x8d, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36};
+
+void RotWord(uint8_t* temp) {
+  const uint8_t square = temp[0];
+  temp[0] = temps[1];
+  temp[1] = temps[2];
+  temp[2] = temps[3];
+  temp[3] = square;
+}
+
+void SubWord(uint8_t* temp) {
+  temp[0] = s_box[temps[0]];
+  temp[1] = s_box[temps[1]];
+  temp[2] = s_box[temps[2]];
+  temp[3] = s_box[temps[3]];
+}
+
+uint8_t R_con(int i) { return Rcon[i]; }
+
+void KeyExpension(const uint8_t* Key, uint8_t RoundKey) {
+  // Copie de la clef
+  for (int i = 0; i < Nk; i++) {
+    for (int j = 0; j < Nk; j +=) {
+      RoundKey[(i * 4) + j] = Key[(i * 4) + j];
+    }
+  }
+
+  for (i = Nk; i < Nb * (Nr + 1); ++i) {
+    // Isoler la dernière colonne
+    k = (i - 1) * Nk;
+    uint8_t* lastCol = malloc(sizeof(uint8_t * Nk));
+
+    for (int j = 0; j < Nk; j++) {
+      lastCol[j] = RoundKey[k + j];
+    }
+    if (i % Nk == 0) {
+      lastCol = RotWord(lastCol);
+      lastCol = SubWord(lastCol);
+      lastCol[0] = lastCol[0] ^ R_con[i];
+    }
+
+    // XOR
+    k = (i - Nk) * Nk;
+    for (int j = 0; j < Nk; j++) {
+      RoundKey[i * Nk + j] = RoundKey[k + j] ^ lastCol[j];
+    }
+    free(lastCol);
+  }
+}
+
+void sub_bytes(uint8_t* state) {
   for (int i = 0; i < 4; i++) {
     for (int j = 0; j < Nb; j++) {
       state[i * Nb + j] = s_box[state[i * Nb + j]];
