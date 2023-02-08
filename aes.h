@@ -10,6 +10,8 @@
 #include <stdint.h>
 #include <stdlib.h>
 
+#define SWAP(x, y, z) (z) = (x), (x) = (y), (y) = (z)
+
 /**
  * @brief SubBytes operation
  * @details Replace each byte of the state by his equivalent using the gived S-Box
