@@ -68,3 +68,15 @@ void sub_bytes(uint8_t *state) {
     }
   }
 }
+
+void shift_rows(uint8_t *state) {
+  uint8_t tmp;
+
+  for (int i = 1; i < 4; i++) {
+    for (int j = 0; j < i; j++) {
+      for (int k = 0; k < Nb - 1; k++) {
+        SWAP(state[Nb * i + k], state[Nb * i + k + 1], tmp);
+      }
+    }
+  }
+}
