@@ -10,7 +10,7 @@
  * The key size, expressed in terms of the number of 32-bit words in the key.
  * The value of Nk can be 4 (128-bit key), 6 (192-bit key) or 8 (256-bit key).
  **/
-#define Nk = 4
+#define Nk 4
 
 /**
  * The number of rounds in the encryption process.
@@ -84,7 +84,7 @@ uint8_t R_con(int i) { return Rcon[i]; }
 void KeyExpension(const uint8_t* Key, uint8_t RoundKey) {
   // Copie de la clef
   for (int i = 0; i < Nk; i++) {
-    for (int j = 0; j < Nk; j +=) {
+    for (int j = 0; j < Nk; j++) {
       RoundKey[(i * 4) + j] = Key[(i * 4) + j];
     }
   }
@@ -120,13 +120,33 @@ void sub_bytes(uint8_t* state) {
   }
 }
 
-void shift_rows(uint8_t *state) {
+void inverse_sub_bytes(uint8_t* state) {
+  for (int i = 0; i < 4; i++) {
+    for (int j = 0; j < Nb; j++) {
+      state[i * Nb + j] = inverse_s_box[state[i * Nb + j]];
+    }
+  }
+}
+
+void shift_rows(uint8_t* state) {
   uint8_t tmp;
 
   for (int i = 1; i < 4; i++) {
     for (int j = 0; j < i; j++) {
       for (int k = 0; k < Nb - 1; k++) {
         SWAP(state[Nb * i + k], state[Nb * i + k + 1], tmp);
+      }
+    }
+  }
+}
+
+void inverse_shift_rows(uint8_t* state) {
+  uint8_t tmp;
+
+  for (int i = 1; i < 4; i++) {
+    for (int j = 0; j < i; j++) {
+      for (int k = Nb - 1; k > 0; k--) {
+        SWAP(state[Nb * i + k], state[Nb * i + k - 1], tmp);
       }
     }
   }
