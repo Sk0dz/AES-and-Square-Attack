@@ -4,19 +4,19 @@
  * Number of columns in the state matrix, which is the input to the encryption algorithm.
  * The value of Nb is fixed at 4 for AES encryption.
 **/
-#define Nb 4;
+#define Nb 4
 
 /**
  * The key size, expressed in terms of the number of 32-bit words in the key. 
  * The value of Nk can be 4 (128-bit key), 6 (192-bit key) or 8 (256-bit key).
 **/
-#define Nk 4;
+#define Nk = 4
 
 /**
  * The number of rounds in the encryption process. 
  * The number of rounds is determined by the key size and is equal to 10 for a 128-bit key, 12 for a 192-bit key and 14 for a 256-bit key.
 **/
-#define Nr 10;
+#define Nr 10
 
 //S-box transformation table in hexadecimal
 
@@ -59,3 +59,14 @@ static const uint8_t inverse_s_box[256] = {
     0x60, 0x51, 0x7f, 0xa9, 0x19, 0xb5, 0x4a, 0x0d, 0x2d, 0xe5, 0x7a, 0x9f, 0x93, 0xc9, 0x9c, 0xef,  // D0
     0xa0, 0xe0, 0x3b, 0x4d, 0xae, 0x2a, 0xf5, 0xb0, 0xc8, 0xeb, 0xbb, 0x3c, 0x83, 0x53, 0x99, 0x61,  // E0
     0x17, 0x2b, 0x04, 0x7e, 0xba, 0x77, 0xd6, 0x26, 0xe1, 0x69, 0x14, 0x63, 0x55, 0x21, 0x0c, 0x7d}; // F0
+
+void sub_bytes(uint8_t *state)
+{
+    for (int i = 0; i < 4; i++)
+    {
+        for (int j = 0; j < Nb; j++)
+        {
+            state[i * Nb + j] = s_box[state[i * Nb + j]];
+        }
+    }
+}
