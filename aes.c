@@ -66,22 +66,22 @@ static const uint8_t Rcon[11] = {0x8d, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40,
 
 void RotWord(uint8_t* temp) {
   const uint8_t square = temp[0];
-  temp[0] = temps[1];
-  temp[1] = temps[2];
-  temp[2] = temps[3];
+  temp[0] = temp[1];
+  temp[1] = temp[2];
+  temp[2] = temp[3];
   temp[3] = square;
 }
 
 void SubWord(uint8_t* temp) {
-  temp[0] = s_box[temps[0]];
-  temp[1] = s_box[temps[1]];
-  temp[2] = s_box[temps[2]];
-  temp[3] = s_box[temps[3]];
+  temp[0] = s_box[temp[0]];
+  temp[1] = s_box[temp[1]];
+  temp[2] = s_box[temp[2]];
+  temp[3] = s_box[temp[3]];
 }
 
 uint8_t R_con(int i) { return Rcon[i]; }
 
-void KeyExpension(const uint8_t* Key, uint8_t RoundKey) {
+void KeyExpension(const uint8_t* Key, uint8_t* RoundKey) {
   // Copie de la clef
   for (int i = 0; i < Nk; i++) {
     for (int j = 0; j < Nk; j++) {
@@ -89,18 +89,18 @@ void KeyExpension(const uint8_t* Key, uint8_t RoundKey) {
     }
   }
 
-  for (i = Nk; i < Nb * (Nr + 1); ++i) {
+  for (int i = Nk; i < Nb * (Nr + 1); ++i) {
     // Isoler la dernière colonne
-    k = (i - 1) * Nk;
-    uint8_t* lastCol = malloc(sizeof(uint8_t * Nk));
+    int k = (i - 1) * Nk;
+    uint8_t* lastCol = malloc(sizeof(uint8_t) * Nk);
 
     for (int j = 0; j < Nk; j++) {
       lastCol[j] = RoundKey[k + j];
     }
     if (i % Nk == 0) {
-      lastCol = RotWord(lastCol);
-      lastCol = SubWord(lastCol);
-      lastCol[0] = lastCol[0] ^ R_con[i];
+      RotWord(lastCol);
+      SubWord(lastCol);
+      lastCol[0] = lastCol[0] ^ R_con(i);
     }
 
     // XOR
