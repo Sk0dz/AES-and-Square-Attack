@@ -64,19 +64,19 @@ static const uint8_t inverse_s_box[256] = {
 // Rcon[i], contains the values given by x to the power (i-1) being powers of x in the field GF(2^8)
 static const uint8_t Rcon[11] = {0x8d, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36};
 
-void RotWord(uint8_t* temp) {
-  const uint8_t square = temp[0];
-  temp[0] = temp[1];
-  temp[1] = temp[2];
-  temp[2] = temp[3];
-  temp[3] = square;
+void RotWord(uint8_t* word) {
+  const uint8_t square = word[0];
+  word[0] = word[1];
+  word[1] = word[2];
+  word[2] = word[3];
+  word[3] = square;
 }
 
-void SubWord(uint8_t* temp) {
-  temp[0] = s_box[temp[0]];
-  temp[1] = s_box[temp[1]];
-  temp[2] = s_box[temp[2]];
-  temp[3] = s_box[temp[3]];
+void SubWord(uint8_t* word) {
+  word[0] = s_box[word[0]];
+  word[1] = s_box[word[1]];
+  word[2] = s_box[word[2]];
+  word[3] = s_box[word[3]];
 }
 
 void key_expension(const uint8_t* key, uint8_t* add_round_key) {
