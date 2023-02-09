@@ -79,13 +79,11 @@ void SubWord(uint8_t* temp) {
   temp[3] = s_box[temp[3]];
 }
 
-uint8_t R_con(int i) { return Rcon[i]; }
-
-void KeyExpension(const uint8_t* Key, uint8_t* RoundKey) {
+void key_expension(const uint8_t* key, uint8_t* add_round_key) {
   // Copie de la clef
   for (int i = 0; i < Nk; i++) {
     for (int j = 0; j < Nk; j++) {
-      RoundKey[(i * 4) + j] = Key[(i * 4) + j];
+      add_round_key[(i * 4) + j] = key[(i * 4) + j];
     }
   }
 
@@ -95,18 +93,18 @@ void KeyExpension(const uint8_t* Key, uint8_t* RoundKey) {
     uint8_t* lastCol = malloc(sizeof(uint8_t) * Nk);
 
     for (int j = 0; j < Nk; j++) {
-      lastCol[j] = RoundKey[k + j];
+      lastCol[j] = add_round_key[k + j];
     }
     if (i % Nk == 0) {
       RotWord(lastCol);
       SubWord(lastCol);
-      lastCol[0] = lastCol[0] ^ R_con(i);
+      lastCol[0] = lastCol[0] ^ Rcon[i];
     }
 
     // XOR
     k = (i - Nk) * Nk;
     for (int j = 0; j < Nk; j++) {
-      RoundKey[i * Nk + j] = RoundKey[k + j] ^ lastCol[j];
+      add_round_key[i * Nk + j] = add_round_key[k + j] ^ lastCol[j];
     }
     free(lastCol);
   }
@@ -148,6 +146,14 @@ void inverse_shift_rows(uint8_t* state) {
       for (int k = Nb - 1; k > 0; k--) {
         SWAP(state[Nb * i + k], state[Nb * i + k - 1], tmp);
       }
+    }
+  }
+}
+
+void add_round_key(int round, uint8_t* state, uint8_t* round_key) {
+  for (int i = 0; i < Nk; i++) {
+    for (int j = 0; j < Nk; j++) {
+      state[Nk * i + j] = state[Nk * i + j] ^ round_key[round * Nk * Nk + Nk * i + j];
     }
   }
 }
