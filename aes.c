@@ -132,7 +132,7 @@ void shift_rows(uint8_t* state) {
   for (int i = 1; i < 4; i++) {
     for (int j = 0; j < i; j++) {
       for (int k = 0; k < Nb - 1; k++) {
-        SWAP(state[Nb * i + k], state[Nb * i + k + 1], tmp);
+        SWAP(state[i + k * 4], state[i + (k + 1) * 4], tmp);
       }
     }
   }
@@ -144,7 +144,7 @@ void inverse_shift_rows(uint8_t* state) {
   for (int i = 1; i < 4; i++) {
     for (int j = 0; j < i; j++) {
       for (int k = Nb - 1; k > 0; k--) {
-        SWAP(state[Nb * i + k], state[Nb * i + k - 1], tmp);
+        SWAP(state[i + k * 4], state[i + (k - 1) * 4], tmp);
       }
     }
   }
@@ -157,3 +157,5 @@ void add_round_key(int round, uint8_t* state, uint8_t* round_key) {
     }
   }
 }
+
+void mix_columns(uint8_t* state) {}
