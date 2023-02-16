@@ -1,6 +1,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "aes.h"
@@ -15,7 +16,16 @@
 
 /********* TESTS **********/
 
-bool test_mix_columns() {}
+bool test_mix_columns() { return true; }
+
+bool test_inverse_mix_columns() { return true; }
+
+//************* USAGE **********************//
+
+void usage(int argc, char *argv[]) {
+  fprintf(stderr, "Usage: %s <testname> [<...>]\n", argv[0]);
+  exit(EXIT_FAILURE);
+}
 
 /********* MAIN **********/
 

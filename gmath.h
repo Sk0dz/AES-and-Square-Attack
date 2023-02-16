@@ -4,8 +4,8 @@
  * @authors Paul Bureau, Victoria Martini, Quentin Bonnel
  **/
 
-#ifndef AES_H
-#define AES_H
+#ifndef GMATH_H
+#define GMATH_H
 
 #include <stdint.h>
 #include <stdlib.h>
@@ -43,4 +43,4 @@ void mix_columns_mult(uint8_t* word, uint8_t* result);
  **/
 void inverse_mix_columns_mult(uint8_t* word, uint8_t* result);
 
-#endif  // AES_H
+#endif  // GMATH_H
