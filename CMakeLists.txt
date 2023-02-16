@@ -16,3 +16,4 @@ add_executable(test_gmath test_gmath.c)
 target_link_libraries(test_gmath aes)
 
 add_test(test_mix_columns_mult ./test_gmath mix_columns_mult)
+add_test(test_inverse_mix_columns_mult ./test_gmath inverse_mix_columns_mult)
