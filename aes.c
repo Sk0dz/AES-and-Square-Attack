@@ -1,5 +1,7 @@
 #include "aes.h"
 
+#include "gmath.h"
+
 /**
  * Number of columns in the state matrix, which is the input to the encryption algorithm.
  * The value of Nb is fixed at 4 for AES encryption.
@@ -158,4 +160,15 @@ void add_round_key(int round, uint8_t* state, uint8_t* round_key) {
   }
 }
 
-void mix_columns(uint8_t* state) {}
+void mix_columns(uint8_t* state) {
+  uint8_t tmp[4], col[4];
+  for (int i = 0; i < Nb; i++) {
+    for (int j = 0; j < 4; j++) {
+      col[j] = state[i * Nb + j];
+    }
+    mix_columns_mult(col, tmp);
+    for (int j = 0; j < 4; j++) {
+      state[i * Nb + j] = tmp[j];
+    }
+  }
+}
