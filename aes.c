@@ -172,3 +172,16 @@ void mix_columns(uint8_t* state) {
     }
   }
 }
+
+void inverse_mix_columns(uint8_t* state) {
+  uint8_t tmp[4], col[4];
+  for (int i = 0; i < Nb; i++) {
+    for (int j = 0; j < 4; j++) {
+      col[j] = state[i * Nb + j];
+    }
+    inverse_mix_columns_mult(col, tmp);
+    for (int j = 0; j < 4; j++) {
+      state[i * Nb + j] = tmp[j];
+    }
+  }
+}

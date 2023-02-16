@@ -27,11 +27,20 @@ uint8_t g_mult(uint8_t a, uint8_t b);
 
 /**
  * @brief MixColumns operation
- * @details Multiply a column of the state by a fixed matrix
+ * @details Multiply a column of the state by a fixed matrix to mix the columns
  * @param word a column of the state
  * @param result the result of the operation
  * @pre @p word and @p result must be a valid pointer toward an array with a size of 4
  **/
 void mix_columns_mult(uint8_t* word, uint8_t* result);
+
+/**
+ * @brief Inverse MixColumns operation
+ * @details Multiply a column of the state by a fixed matrix to inverse the MixColumns operation
+ * @param word a column of the state
+ * @param result the result of the operation
+ * @pre @p word and @p result must be a valid pointer toward an array with a size of 4
+ **/
+void inverse_mix_columns_mult(uint8_t* word, uint8_t* result);
 
 #endif  // AES_H
