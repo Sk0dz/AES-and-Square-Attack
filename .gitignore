@@ -1,0 +1,10 @@
+**/build
+**/CMakeFiles
+**/Testing
+**/.vscode
+*.log
+Makefile
+*.mk
+*.o
+*.cmake
+**/html
