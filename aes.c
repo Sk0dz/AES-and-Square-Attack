@@ -66,7 +66,7 @@ static const uint8_t inverse_s_box[256] = {
 // Rcon[i], contains the values given by x to the power (i-1) being powers of x in the field GF(2^8)
 static const uint8_t Rcon[11] = {0x8d, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36};
 
-void RotWord(uint8_t* word) {
+void rot_word(uint8_t* word) {
   const uint8_t square = word[0];
   word[0] = word[1];
   word[1] = word[2];
@@ -74,7 +74,7 @@ void RotWord(uint8_t* word) {
   word[3] = square;
 }
 
-void SubWord(uint8_t* word) {
+void sub_word(uint8_t* word) {
   word[0] = s_box[word[0]];
   word[1] = s_box[word[1]];
   word[2] = s_box[word[2]];
@@ -83,10 +83,8 @@ void SubWord(uint8_t* word) {
 
 void key_expansion(uint8_t* key, uint8_t* add_round_key) {
   // Copie de la clef
-  for (int i = 0; i < Nk; i++) {
-    for (int j = 0; j < Nk; j++) {
-      add_round_key[(i * 4) + j] = key[(i * 4) + j];
-    }
+  for (int i = 0; i < 4 * Nk; i++) {
+    add_round_key[i] = key[i];
   }
 
   for (int i = Nk; i < Nb * (Nr + 1); ++i) {
@@ -98,8 +96,8 @@ void key_expansion(uint8_t* key, uint8_t* add_round_key) {
       lastCol[j] = add_round_key[k + j];
     }
     if (i % Nk == 0) {
-      RotWord(lastCol);
-      SubWord(lastCol);
+      rot_word(lastCol);
+      sub_word(lastCol);
       lastCol[0] = lastCol[0] ^ Rcon[i];
     }
 

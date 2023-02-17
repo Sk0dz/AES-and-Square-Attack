@@ -13,6 +13,22 @@
 #define SWAP(x, y, z) (z) = (x), (x) = (y), (y) = (z)
 
 /**
+ * @brief RotWord operation
+ * @details Rotate the word by one byte
+ * @param word a pointer on the word to rotate
+ * @pre @p word must be a valid pointer toward an array with a size of 4
+ **/
+void rot_word(uint8_t *word);
+
+/**
+ * @brief SubWord operation
+ * @details Replace each byte of the word by his equivalent using the gived S-Box
+ * @param word a pointer on the word to substitute
+ * @pre @p word must be a valid pointer toward an array with a size of 4
+ **/
+void sub_word(uint8_t *word);
+
+/**
  * @brief Key expansion operation
  * @details Expand the key to get a round key for each round
  * @param key a pointer on the key to expand

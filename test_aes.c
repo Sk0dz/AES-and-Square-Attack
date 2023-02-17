@@ -16,6 +16,38 @@
 
 /********* TESTS **********/
 
+bool test_rot_word() {
+  uint8_t word[4] = {0x01, 0x02, 0x03, 0x04};
+  rot_word(word);
+  ASSERT(word[0] == 0x02);
+  ASSERT(word[1] == 0x03);
+  ASSERT(word[2] == 0x04);
+  ASSERT(word[3] == 0x01);
+  uint8_t word2[4] = {0x0a, 0x0b, 0x0c, 0x0d};
+  rot_word(word2);
+  ASSERT(word2[0] == 0x0b);
+  ASSERT(word2[1] == 0x0c);
+  ASSERT(word2[2] == 0x0d);
+  ASSERT(word2[3] == 0x0a);
+  return true;
+}
+
+bool test_sub_word() {
+  uint8_t word[4] = {0x19, 0xa0, 0x9a, 0xe9};
+  sub_word(word);
+  ASSERT(word[0] == 0xd4);
+  ASSERT(word[1] == 0xe0);
+  ASSERT(word[2] == 0xb8);
+  ASSERT(word[3] == 0x1e);
+  uint8_t word2[4] = {0x3d, 0xef, 0x49, 0x10};
+  sub_word(word2);
+  ASSERT(word2[0] == 0x27);
+  ASSERT(word2[1] == 0xdf);
+  ASSERT(word2[2] == 0x3b);
+  ASSERT(word2[3] == 0xca);
+  return true;
+}
+
 bool test_key_expansion() {
   uint8_t key[16] = {0x2b, 0x7e, 0x15, 0x16, 0x28, 0xae, 0xd2, 0xa6, 0xab, 0xf7, 0x15, 0x88, 0x09, 0xcf, 0x4f, 0x3c};
   uint8_t expanded_key[176];
@@ -97,7 +129,11 @@ int main(int argc, char *argv[]) {
 
   fprintf(stderr, "=> Start test \"%s\"\n", argv[1]);
   bool ok = false;
-  if (strcmp("key_expansion", argv[1]) == 0) {
+  if (strcmp("rot_word", argv[1]) == 0) {
+    ok = test_rot_word();
+  } else if (strcmp("sub_word", argv[1]) == 0) {
+    ok = test_sub_word();
+  } else if (strcmp("key_expansion", argv[1]) == 0) {
     ok = test_key_expansion();
   } else if (strcmp("mix_columns", argv[1]) == 0) {
     ok = test_mix_columns();
