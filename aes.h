@@ -13,6 +13,16 @@
 #define SWAP(x, y, z) (z) = (x), (x) = (y), (y) = (z)
 
 /**
+ * @brief Key expansion operation
+ * @details Expand the key to get a round key for each round
+ * @param key a pointer on the key to expand
+ * @param add_round_key a pointer to stock the expanded key
+ * @pre @p key must be a valid pointer toward an array with a size of Nb*Nk
+ * @pre @p add_round_key must be a valid pointer toward an array with a size of Nb*(Nr+1)
+ */
+void key_expansion(uint8_t *key, uint8_t *add_round_key);
+
+/**
  * @brief SubBytes operation
  * @details Replace each byte of the state by his equivalent using the gived S-Box
  * @param state the current state of the cipher

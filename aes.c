@@ -81,7 +81,7 @@ void SubWord(uint8_t* word) {
   word[3] = s_box[word[3]];
 }
 
-void key_expension(const uint8_t* key, uint8_t* add_round_key) {
+void key_expansion(uint8_t* key, uint8_t* add_round_key) {
   // Copie de la clef
   for (int i = 0; i < Nk; i++) {
     for (int j = 0; j < Nk; j++) {
