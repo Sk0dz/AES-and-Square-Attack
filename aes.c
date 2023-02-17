@@ -64,7 +64,7 @@ static const uint8_t inverse_s_box[256] = {
     0x17, 0x2b, 0x04, 0x7e, 0xba, 0x77, 0xd6, 0x26, 0xe1, 0x69, 0x14, 0x63, 0x55, 0x21, 0x0c, 0x7d};  // F0
 
 // Rcon[i], contains the values given by x to the power (i-1) being powers of x in the field GF(2^8)
-static const uint8_t Rcon[11] = {0x8d, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36};
+static const uint8_t Rcon[10] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36};
 
 void rot_word(uint8_t* word) {
   const uint8_t square = word[0];
@@ -87,27 +87,29 @@ void key_expansion(uint8_t* key, uint8_t* add_round_key) {
     add_round_key[i] = key[i];
   }
 
-  for (int i = Nk; i < Nb * (Nr + 1); ++i) {
+  uint8_t* lastCol = malloc(sizeof(uint8_t) * Nk);
+  int count = 0;
+  for (int i = Nk; i < Nk * (Nr + 1); ++i) {
     // Isoler la dernière colonne
-    int k = (i - 1) * Nk;
-    uint8_t* lastCol = malloc(sizeof(uint8_t) * Nk);
+    int k = (i - 1) * 4;
 
-    for (int j = 0; j < Nk; j++) {
+    for (int j = 0; j < 4; j++) {
       lastCol[j] = add_round_key[k + j];
     }
     if (i % Nk == 0) {
       rot_word(lastCol);
       sub_word(lastCol);
-      lastCol[0] = lastCol[0] ^ Rcon[i];
+      lastCol[0] = lastCol[0] ^ Rcon[count];
+      count++;
     }
 
     // XOR
-    k = (i - Nk) * Nk;
+    k = (i - Nk) * 4;
     for (int j = 0; j < Nk; j++) {
-      add_round_key[i * Nk + j] = add_round_key[k + j] ^ lastCol[j];
+      add_round_key[i * 4 + j] = add_round_key[k + j] ^ lastCol[j];
     }
-    free(lastCol);
   }
+  free(lastCol);
 }
 
 void sub_bytes(uint8_t* state) {
