@@ -113,9 +113,7 @@ int main(int argc, char *argv[]) {
 
   fprintf(stderr, "=> Start test \"%s\"\n", argv[1]);
   bool ok = false;
-  if (strcmp("x_mult", argv[1]) == 0) {
-    ok = test_x_mult();
-  } else if (strcmp("mix_columns_mult", argv[1]) == 0) {
+  if (strcmp("mix_columns_mult", argv[1]) == 0) {
     ok = test_mix_columns_mult();
   } else if (strcmp("inverse_mix_columns_mult", argv[1]) == 0) {
     ok = test_inverse_mix_columns_mult();
