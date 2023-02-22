@@ -185,3 +185,17 @@ void inverse_mix_columns(uint8_t* state) {
     }
   }
 }
+
+uint8_t* block_encryption(uint8_t* state, uint8_t* round_key) {
+  add_round_key(0, state, round_key);
+  for (int i = 1; i < Nr; i++) {
+    sub_bytes(state);
+    shift_rows(state);
+    mix_columns(state);
+    add_round_key(i, state, round_key);
+  }
+  sub_bytes(state);
+  shift_rows(state);
+  add_round_key(Nr, state, round_key);
+  return state;
+}
