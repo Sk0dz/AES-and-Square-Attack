@@ -95,4 +95,22 @@ void inverse_mix_columns(uint8_t *state);
  **/
 void add_round_key(int round, uint8_t *state, uint8_t *round_key);
 
+/**
+ * @brief Block encryption operation
+ * @details Encrypt a block of data
+ * @param state the current state of the cipher
+ * @param add_round_key the expanded key
+ * @pre @p state and @p add_round_key must be a valid pointer toward an array with a size of Nb * 4 and Nb * (Nr + 1)
+ **/
+void block_encryption(uint8_t *state, uint8_t *add_round_key);
+
+/**
+ * @brief Block decryption operation
+ * @details Decrypt a block of data
+ * @param state the current state of the cipher
+ * @param add_round_key the expanded key
+ * @pre @p state and @p add_round_key must be a valid pointer toward an array with a size of Nb * 4 and Nb * (Nr + 1)
+ **/
+void block_decryption(uint8_t *state, uint8_t *add_round_key);
+
 #endif /* AES_H */
