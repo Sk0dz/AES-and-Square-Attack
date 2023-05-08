@@ -4,13 +4,16 @@ project (aes C)
 include(CTest)
 enable_testing()
 
-add_library(aes STATIC aes.c gmath.c)
+add_library(aes STATIC aes.c gmath.c attack.c)
 
 set(CMAKE_C_FLAGS "-std=c99 -g -Wall")
 link_directories(${CMAKE_SOURCE_DIR})
 
 add_executable(main main.c)
 target_link_libraries(main aes)
+
+add_executable(main_attack main_attack.c)
+target_link_libraries(main_attack aes)
 
 add_executable(test_aes test_aes.c)
 target_link_libraries(test_aes aes)
