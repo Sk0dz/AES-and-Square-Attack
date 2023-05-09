@@ -9,11 +9,18 @@
 #include "attack.h"
 
 
-int main(int argc, char** argv[]){
+int main(int argc, char* argv[]){
     uint8_t key[] = {0x2b, 0x7e, 0x15, 0x16, 0x28, 0xae, 0xd2, 0xa6, 0xab, 0xf7, 0x15, 0x88, 0x09, 0xcf, 0x4f, 0x3c};
     uint8_t expanded_key[176];
     key_expansion(key, expanded_key);
-    for(int i=64; i<80; i++){
+
+    printf("Key:\n");
+    for (int i = 0; i < 16; i++) {
+        printf("%02x ", key[i]);
+    }
+    printf("\n\n");
+    printf("Round 4 key:\n");
+    for (int i = 64; i<80; i++){
         printf("%02x ", expanded_key[i]);
     }
 
@@ -40,14 +47,17 @@ int main(int argc, char** argv[]){
         }
     }
 
-    printf("Key guess: ");
+    printf("\n\nRound 4 key guess: \n");
     for(int i=0; i<16; i++){
         printf("%02x ", guess_key[i]);
     }
+
     uint8_t* key_find = key_unexpand(guess_key);
-    printf("\nKey guess after rewind: ");
+
+    printf("\n\nKey guess after rewind: \n");
     for(int i=0; i<16; i++){
         printf("%02x ", key_find[i]);
     }
+
     return EXIT_SUCCESS;
 }
