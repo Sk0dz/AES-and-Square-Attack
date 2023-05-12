@@ -18,3 +18,7 @@ The functions are split into 3 main .c files. The aes.c file contains the functi
 ## Testing with you own values
 
 You can modify the main.c and main_attack.c files with your own values to be sure the implementation works with anything. The variables for the key and the text are easy to find.
+
+## Created By
+
+Created by Victoria Martini, Quentin Bonnel and Paul Bureau under the supervision of Guilhem Castagnos, assistant professor of mathematics at the University of Bordeaux.
