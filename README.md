@@ -21,4 +21,4 @@ You can modify the main.c and main_attack.c files with your own values to be sur
 
 ## Created By
 
-Created by Victoria Martini, Quentin Bonnel and Paul Bureau under the supervision of Guilhem Castagnos, assistant professor of mathematics at the University of Bordeaux.
+Created by Victoria Martini, Quentin Bonnel and Paul Bureau under the supervision of Guilhem Castagnos, assistant professor in Mathematics at the University of Bordeaux.
